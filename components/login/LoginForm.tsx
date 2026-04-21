@@ -32,14 +32,11 @@ export default function LoginForm() {
           throw new Error(data.detail || "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
         }
 
-        // --- FIX: Normalize the role to Uppercase ---
         const normalizedRole = data.role.toUpperCase(); 
 
-        // 2. Store details (Using normalizedRole to ensure consistency)
         document.cookie = `auth-token=${data.access_token}; path=/; samesite=strict; max-age=3600`;
         document.cookie = `user-role=${normalizedRole}; path=/; samesite=strict; max-age=3600`;
         
-        // 3. Navigation Check (Now strictly matches "ADMIN")
         if (normalizedRole === "ADMIN") {
           router.push("/dashboard");
         } else {
