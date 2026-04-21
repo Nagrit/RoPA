@@ -5,7 +5,6 @@ export function useAuth() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Look at the browser cookies
     const userRole = document.cookie
       .split('; ')
       .find(row => row.startsWith('user-role='))

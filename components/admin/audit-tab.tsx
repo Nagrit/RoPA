@@ -86,7 +86,7 @@ export function AuditTab() {
           </div>
         </div>
 
-        <div className="overflow-x-auto p-0 flex-1 mt-4 min-h-[400px]">
+        <div className="overflow-x-auto p-0 flex-1 mt-4 min-h-100">
           <table className="w-full text-left text-sm border-collapse min-w-200">
             <thead className="bg-slate-900/40 border-b border-slate-800/60">
               <tr>

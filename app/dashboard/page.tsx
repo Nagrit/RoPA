@@ -104,9 +104,7 @@ export default function Main() {
       case 'audit': return <AuditTab />;
       case 'profile': return <DashboardContent />;
       case 'manager_dashboard': return <ManagerDashboardTab />;
-      case 'dpo_dashboard': return <DpoDashboardTab onNavigateToRopa={function (): void {
-        throw new Error('Function not implemented.');
-      } } />;
+      case 'dpo_dashboard': return <DpoDashboardTab onNavigateToRopa={() => setActiveTab('dpo_ropa')} />;
       case 'dpo_ropa': return <DpoRopaTab />;
       case 'executive_dashboard': return <ExecutiveDashboardContent />;
       case 'viewer_dashboard': return <ViewerDashboardTab />;
