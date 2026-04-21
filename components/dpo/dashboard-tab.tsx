@@ -43,7 +43,7 @@ export function DpoDashboardTab({ onNavigateToRopa }: { onNavigateToRopa: () => 
       {/* Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 xl:gap-8 relative z-10">
         {SUMMARY.map((s, i) => (
-          <div key={i} className="bg-[#0b1429]/40 backdrop-blur-xl border border-slate-800/60 rounded-[24px] p-8 shadow-2xl group hover:border-blue-500/30 transition-all">
+          <div key={i} className="bg-[#0b1429]/40 backdrop-blur-xl border border-slate-800/60 rounded-3xl p-8 shadow-2xl group hover:border-blue-500/30 transition-all">
             <h3 className="text-slate-500 text-sm font-bold uppercase tracking-widest mb-1">{s.title}</h3>
             <p className="text-4xl font-black text-white tracking-tighter">{s.value}</p>
           </div>
@@ -54,7 +54,7 @@ export function DpoDashboardTab({ onNavigateToRopa }: { onNavigateToRopa: () => 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start relative z-10 flex-1">
         
         {/* Left Column - Department Overview */}
-        <div className="bg-[#0b1429]/30 backdrop-blur-xl border border-slate-800/60 rounded-[32px] flex flex-col shadow-2xl overflow-hidden h-full">
+        <div className="bg-[#0b1429]/30 backdrop-blur-xl border border-slate-800/60 rounded-4xl flex flex-col shadow-2xl overflow-hidden h-full">
           <div className="px-8 py-6 bg-slate-900/20 border-b border-slate-800/60">
             <h3 className="font-bold text-white text-[15px] tracking-wide">Department Overview</h3>
           </div>
@@ -81,7 +81,7 @@ export function DpoDashboardTab({ onNavigateToRopa }: { onNavigateToRopa: () => 
         </div>
 
         {/* Right Column - Pending Compliance Review */}
-        <div className="bg-[#0b1429]/30 backdrop-blur-xl border border-slate-800/60 rounded-[32px] flex flex-col shadow-2xl overflow-hidden h-full">
+        <div className="bg-[#0b1429]/30 backdrop-blur-xl border border-slate-800/60 rounded-4xl flex flex-col shadow-2xl overflow-hidden h-full">
           <div className="px-8 py-6 bg-slate-900/20 border-b border-slate-800/60 flex justify-between items-center">
             <h3 className="font-bold text-white text-[15px] tracking-wide">ROPA Pending Compliance Review</h3>
             <button 
