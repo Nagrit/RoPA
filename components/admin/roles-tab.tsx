@@ -165,7 +165,7 @@ export function RolesTab() {
                 Cancel
               </button>
               <button onClick={() => setIsModalOpen(false)} className="px-10 py-3 rounded-full bg-blue-600 hover:bg-blue-500 text-white transition-all font-bold text-sm shadow-lg shadow-blue-900/40">
-                Save
+                Save Changes
               </button>
             </div>
           </div>
