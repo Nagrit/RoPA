@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Search, Filter, Plus, Edit2, Trash2, CheckCircle2, XCircle, Clock, ChevronDown } from 'lucide-react';
-import { ManagerReviewModal } from './review-modal';
+import { RopaModal } from '../user/ropa-modal';
 
 const SUMMARY = [
   { title: 'All', value: '150' },
@@ -19,6 +19,7 @@ const ALL_REQUESTS = [
 ];
 
 export function ManagerDashboardTab() {
+  const [isRopaModalOpen, setIsRopaModalOpen] = useState(false);
   const [isReviewOpen, setIsReviewOpen] = useState(false);
 
   return (
@@ -43,6 +44,7 @@ export function ManagerDashboardTab() {
             Export
           </button>
           <button 
+            onClick={() => setIsRopaModalOpen(true)}
             className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-full transition-all text-xs font-bold shadow-lg shadow-blue-900/20 active:scale-95 tracking-widest uppercase shrink-0"
           >
             <Plus size={16} /> ROPA Records
@@ -134,7 +136,7 @@ export function ManagerDashboardTab() {
         </div>
       </div>
 
-      {isReviewOpen && <ManagerReviewModal onClose={() => setIsReviewOpen(false)} />}
+      {isRopaModalOpen && <RopaModal onClose={() => setIsRopaModalOpen(false)} />}
     </div>
   );
 }

@@ -2,35 +2,88 @@
 
 import { useState } from 'react';
 import { Search, Filter, Calendar, Users, ChevronDown, CheckCircle2, Clock, XCircle } from 'lucide-react';
-import {DpoReviewModal} from './review-modal';
+import { DpoReviewModal } from './review-modal'; // ตรวจสอบชื่อไฟล์ให้ถูกต้อง
 
+// ขยาย Mock Data ให้ครบตาม Database Model
 const RECORDS = [
-  { id: 'ระบบจัดการข้อมูลพนักงาน xxx-01', cat: 'xxxx', type: 'xxx', status: 'Completed', date: '2026-05-05' },
-  { id: 'ระบบxxxx xxx-02', cat: 'xxxx', type: 'xxx', status: 'Pending', date: '2026-05-05' },
-  { id: 'ระบบxxxx xxx-03', cat: 'xxxx', type: 'xxx', status: 'Reject', date: '2026-05-05' },
-  { id: 'ระบบxxxx xxx-04', cat: 'xxxx', type: 'xxx', status: 'Completed', date: '2026-05-05' },
+  { 
+    id: 'ROPA-2026-001', 
+    controllerName: 'บริษัท เอบีซี จำกัด (สำนักงานใหญ่)',
+    processingActivity: 'ระบบจัดการข้อมูลพนักงาน EMP-01', 
+    cat: 'HR Data', 
+    type: 'Personal', 
+    status: 'Pending', 
+    date: '2026-05-05',
+    purpose: 'เพื่อใช้ในการบริหารจัดการทรัพยากรบุคคลและจ่ายเงินเดือน',
+    personalData: 'ชื่อ-นามสกุล, เลขประจำตัวประชาชน, เลขบัญชีธนาคาร',
+    dataCategory: 'พนักงาน (Staff)',
+    dataType: 'General Personal Data',
+    legalBasis: 'Contractual Basis',
+    childConsent: 'No',
+    internationalTransfer: 'No',
+    transferCountry: '-',
+    storageMethod: 'Cloud Database (AWS Thai Region)',
+    retentionPeriod: '10 ปีหลังจากพ้นสภาพพนักงาน',
+    riskLevel: 'Medium',
+    measures: [
+      { label: 'Access Control', detail: 'จำกัดสิทธิ์เข้าถึงเฉพาะเจ้าหน้าที่ HR ที่ได้รับมอบหมาย' },
+      { label: 'Encryption at Rest', detail: 'เข้ารหัสข้อมูลในฐานข้อมูลด้วย AES-256' }
+    ]
+  },
+  { 
+    id: 'ROPA-2026-002', 
+    controllerName: 'บริษัท เอบีซี จำกัด (ฝ่ายการตลาด)',
+    processingActivity: 'ระบบลูกค้าสัมพันธ์ CRM-02', 
+    cat: 'Sales', 
+    type: 'Customer', 
+    status: 'Pending', 
+    date: '2026-05-05',
+    purpose: 'เพื่อการวิเคราะห์พฤติกรรมลูกค้าและทำ Marketing Automation',
+    personalData: 'อีเมล, เบอร์โทรศัพท์, ประวัติการซื้อสินค้า',
+    dataCategory: 'ลูกค้าบุคคลธรรมดา',
+    dataType: 'General Personal Data',
+    legalBasis: 'Consent Basis',
+    childConsent: 'No',
+    internationalTransfer: 'Yes',
+    transferCountry: 'Singapore (Salesforce Cloud)',
+    storageMethod: 'SaaS Platform',
+    retentionPeriod: '5 ปีนับจากการติดต่อครั้งสุดท้าย',
+    riskLevel: 'High',
+    measures: [
+      { label: 'MFA', detail: 'บังคับใช้การยืนยันตัวตนสองชั้นสำหรับพนักงานขาย' },
+      { label: 'Privacy Masking', detail: 'ซ่อนข้อมูลบางส่วนในหน้า Dashboard' }
+    ]
+  }
 ];
 
 export function DpoRopaTab() {
   const [isReviewOpen, setIsReviewOpen] = useState(false);
+  const [selectedRecord, setSelectedRecord] = useState<any>(null);
+
+  const handleReviewClick = (record: any) => {
+    setSelectedRecord(record);
+    setIsReviewOpen(true);
+  };
 
   return (
-    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700 h-full flex flex-col max-w-6xl mx-auto relative">
+    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700 h-full flex flex-col max-w-6xl mx-auto relative z-10">
+      
+      {/* Background Glow */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-blue-600/10 blur-[120px]" />
         <div className="absolute top-[20%] -right-[10%] w-[30%] h-[30%] rounded-full bg-indigo-600/10 blur-[120px]" />
       </div>
 
       {/* Header Panel */}
-      <div className="bg-[#0b1429]/40 backdrop-blur-xl border border-slate-800/60 rounded-[32px] p-8 shadow-2xl flex justify-between items-start relative z-10">
+      <div className="bg-[#0b1429]/40 backdrop-blur-xl border border-slate-800/60 rounded-[32px] p-8 shadow-2xl flex justify-between items-start relative">
         <div>
-          <h2 className="text-4xl font-bold text-white tracking-tight mb-2">ROPA Pending Compliance Review</h2>
-          <p className="text-slate-500 text-sm font-medium">Text</p>
+          <h2 className="text-4xl font-bold text-white tracking-tight mb-2">Compliance Review</h2>
+          <p className="text-slate-500 text-sm font-medium uppercase tracking-widest">ตรวจสอบและยืนยันบันทึกกิจกรรมการประมวลผล (RoPA)</p>
         </div>
       </div>
 
-      {/* Filter Row 1 */}
-      <div className="flex flex-wrap gap-4 relative z-10">
+      {/* Filter Row */}
+      <div className="flex flex-wrap gap-4 relative">
         <button className="flex items-center justify-between min-w-[180px] bg-slate-800/50 hover:bg-slate-700 border border-slate-700/50 px-5 py-3.5 rounded-xl transition-all text-xs font-bold text-slate-300 uppercase tracking-widest">
           <div className="flex items-center gap-2"><Calendar size={16} className="text-blue-400" /> Select Date</div>
           <ChevronDown size={14} className="opacity-30" />
@@ -39,52 +92,49 @@ export function DpoRopaTab() {
           <div className="flex items-center gap-2"><Users size={16} className="text-indigo-400" /> Department</div>
           <ChevronDown size={14} className="opacity-30" />
         </button>
-        <button className="flex items-center justify-between min-w-[180px] bg-slate-800/50 hover:bg-slate-700 border border-slate-700/50 px-5 py-3.5 rounded-xl transition-all text-xs font-bold text-slate-300 uppercase tracking-widest">
-          <div className="flex items-center gap-2"><Filter size={16} className="text-emerald-400" /> All</div>
-        </button>
       </div>
 
       {/* Main Table Panel */}
-      <div className="bg-[#0b1429]/30 backdrop-blur-xl border border-slate-800/60 rounded-[32px] flex flex-col shadow-2xl flex-1 overflow-hidden pointer-events-auto relative z-10">
-        {/* Toolbar */}
+      <div className="bg-[#0b1429]/30 backdrop-blur-xl border border-slate-800/60 rounded-[32px] flex flex-col shadow-2xl flex-1 overflow-hidden relative">
         <div className="p-8 border-b border-slate-800/60 flex flex-col sm:flex-row gap-4 items-center justify-between bg-slate-900/20">
           <div className="relative w-full sm:max-w-md group">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-400 transition-colors" size={18} />
             <input 
               type="text" 
-              placeholder="ค้นหา.............." 
+              placeholder="ค้นหาชื่อกิจกรรมหรือรหัส ROPA..." 
               className="w-full bg-slate-900/40 border border-slate-800 rounded-xl py-3.5 pl-12 pr-4 text-sm text-slate-200 placeholder:text-slate-600 outline-none focus:ring-1 ring-blue-500/50 transition-all font-medium"
             />
           </div>
-          <button className="flex items-center justify-between w-full sm:w-48 gap-2 bg-slate-800/50 hover:bg-slate-700 border border-slate-700/50 px-5 py-3 rounded-xl transition-all text-xs font-bold text-slate-300 uppercase tracking-widest shrink-0">
-            <span className="flex items-center gap-2"><Filter size={14} className="text-emerald-400" /> All</span>
-          </button>
         </div>
 
-        {/* Table */}
-        <div className="overflow-x-auto flex-1 h-full pb-10">
-          <table className="w-full text-left text-sm text-slate-300 h-full">
-            <thead className="bg-slate-900/40 border-b border-slate-800/60">
+        <div className="overflow-x-auto flex-1">
+          <table className="w-full text-left text-sm text-slate-300">
+            <thead className="bg-slate-900/40 border-b border-slate-800/60 text-[11px] font-black uppercase text-slate-600 tracking-[0.15em]">
               <tr>
-                <th className="py-5 px-8 text-[11px] font-black uppercase text-slate-600 tracking-[0.15em]">Record ID / ชื่อ</th>
-                <th className="py-5 px-8 text-[11px] font-black uppercase text-slate-600 tracking-[0.15em]">หมวดหมู่</th>
-                <th className="py-5 px-8 text-[11px] font-black uppercase text-slate-600 tracking-[0.15em]">ประเภทข้อมูล</th>
-                <th className="py-5 px-8 text-[11px] font-black uppercase text-slate-600 tracking-[0.15em]">สถานะ</th>
-                <th className="py-5 px-8 text-[11px] font-black uppercase text-slate-600 tracking-[0.15em]">แก้ไขล่าสุด</th>
-                <th className="py-5 px-8 text-[11px] font-black uppercase text-slate-600 tracking-[0.15em] text-center">จัดการ</th>
+                <th className="py-5 px-8">Activity / ID</th>
+                <th className="py-5 px-8">Category</th>
+                <th className="py-5 px-8 text-center">Risk</th>
+                <th className="py-5 px-8">Status</th>
+                <th className="py-5 px-8 text-center">Manage</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/40">
               {RECORDS.map((rec, i) => (
                 <tr key={i} className="hover:bg-slate-800/20 transition-colors group">
                   <td className="px-8 py-5">
-                    <p className="font-bold text-white leading-tight">{rec.id.split(' ')[0]}</p>
-                    <p className="text-[11px] text-slate-500 font-medium mt-1 uppercase">{rec.id.split(' ')[1]}</p>
+                    <p className="font-bold text-white leading-tight">{rec.processingActivity}</p>
+                    <p className="text-[10px] text-slate-500 font-medium mt-1 tracking-wider uppercase">{rec.id}</p>
                   </td>
                   <td className="px-8 py-5 font-bold text-slate-400">{rec.cat}</td>
-                  <td className="px-8 py-5 font-bold text-slate-400">{rec.type}</td>
+                  <td className="px-8 py-5 text-center">
+                     <span className={`px-2 py-1 rounded text-[10px] font-black ${
+                       rec.riskLevel === 'High' ? 'bg-rose-500/20 text-rose-400' : 'bg-blue-500/20 text-blue-400'
+                     }`}>
+                       {rec.riskLevel}
+                     </span>
+                  </td>
                   <td className="px-8 py-5">
-                    <div className={`inline-flex flex items-center gap-2 px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-wider ${
+                    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-wider ${
                       rec.status === 'Completed' ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400' :
                       rec.status === 'Reject' ? 'border-red-500/30 bg-red-500/10 text-red-400' :
                       'border-yellow-500/30 bg-yellow-500/10 text-yellow-500'
@@ -95,14 +145,10 @@ export function DpoRopaTab() {
                       {rec.status}
                     </div>
                   </td>
-                  <td className="px-8 py-5 text-[11px] font-mono text-slate-400 tracking-tighter">{rec.date}</td>
                   <td className="px-8 py-5 text-center">
                     <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setIsReviewOpen(true);
-                      }}
-                      className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-[11px] uppercase tracking-widest rounded-lg transition-all shadow-lg shadow-blue-900/20 active:scale-95 opacity-0 group-hover:opacity-100 pointer-events-auto inline-flex relative z-50"
+                      onClick={() => handleReviewClick(rec)}
+                      className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-[11px] uppercase tracking-widest rounded-lg transition-all shadow-lg shadow-blue-900/20 active:scale-95 sm:opacity-0 group-hover:opacity-100"
                     >
                       Review
                     </button>
@@ -112,22 +158,15 @@ export function DpoRopaTab() {
             </tbody>
           </table>
         </div>
-
-        {/* Pagination Toolbar */}
-        <div className="p-6 border-t border-slate-800 flex flex-col sm:flex-row gap-4 items-center justify-between text-[11px] text-slate-500 bg-slate-900/30 shrink-0 font-bold uppercase tracking-widest rounded-b-[32px]">
-          <p className="font-medium">แสดง 5 จาก 1,250</p>
-          <div className="flex items-center gap-2">
-            <button className="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-800 hover:bg-slate-800 transition-all text-slate-400">&lt;&lt;</button>
-            <button className="w-9 h-9 flex items-center justify-center rounded-xl bg-blue-600 text-white font-black shadow-lg shadow-blue-900/20">1</button>
-            <button className="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-800 hover:bg-slate-800 transition-all">2</button>
-            <button className="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-800 hover:bg-slate-800 transition-all">3</button>
-            <button className="w-12 h-9 flex items-center justify-center rounded-xl border border-slate-800 hover:bg-slate-800 transition-all">...250</button>
-            <button className="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-800 hover:bg-slate-800 transition-all text-slate-400">&gt;&gt;</button>
-          </div>
-        </div>
       </div>
 
-      {isReviewOpen && <DpoReviewModal onClose={() => setIsReviewOpen(false)} />}
+      {/* เรียก Modal และส่ง Data เข้าไป */}
+      {isReviewOpen && selectedRecord && (
+        <DpoReviewModal 
+          data={selectedRecord} 
+          onClose={() => setIsReviewOpen(false)} 
+        />
+      )}
     </div>
   );
 }
