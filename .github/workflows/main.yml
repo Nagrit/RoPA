@@ -33,3 +33,13 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           # ดันโค้ดจาก main ไปยัง release
           git push origin HEAD:release --force
+
+      - name: 5. Upload Test Reports
+        if: always() # ให้เก็บไฟล์เสมอไม่ว่าเทสต์จะผ่านหรือตก
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            tests/results/
+            playwright-report/
+            test-results/
