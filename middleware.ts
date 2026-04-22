@@ -3,8 +3,7 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("auth-token")?.value;
-  const userRole = request.cookies.get("user-role")?.value; // Get role from cookie
-
+  const userRole = request.cookies.get("user-role")?.value; 
   const { pathname } = request.nextUrl;
   const isLoginPage = pathname === "/login";
 
@@ -13,10 +12,8 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // 2. ✅ Already logged in → Handle Redirection
   if (token && isLoginPage) {
-    // If they try to go to login while logged in, send them to their dashboard
-    const dashboard = userRole === "ADMIN" ? "/admin/dashboard" : "/dashboard";
+    const dashboard = userRole === "ADMIN" ? "/dashboard" : "/dashboard";
     return NextResponse.redirect(new URL(dashboard, request.url));
   }
 
