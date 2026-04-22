@@ -1,0 +1,42 @@
+import { test, expect } from '@playwright/test';
+
+test('test', async ({ page }) => {
+  await page.goto('http://localhost:3000/login');
+  await page.getByRole('textbox', { name: 'กรอกชื่อผู้ใช้' }).click();
+  await page.getByRole('textbox', { name: 'กรอกชื่อผู้ใช้' }).fill('RobotUser');
+  await page.getByRole('textbox', { name: 'กรอกรหัสผ่าน' }).click();
+  await page.getByRole('textbox', { name: 'กรอกรหัสผ่าน' }).fill('robot123');
+  await page.getByRole('button', { name: 'Login' }).click();
+  await page.getByRole('button', { name: 'ROPA Records' }).click();
+  await page.getByRole('textbox', { name: 'ชื่อบริษัท หรือหน่วยงานของคุณ' }).click();
+  await page.getByRole('textbox', { name: 'ชื่อบริษัท หรือหน่วยงานของคุณ' }).fill('Department');
+  await page.getByRole('textbox', { name: 'เช่น การรับสมัครพนักงาน' }).click();
+  await page.getByRole('textbox', { name: 'เช่น การรับสมัครพนักงาน' }).fill('of');
+  await page.getByRole('textbox', { name: 'เช่น เพื่อการพิจารณารับเข้าทำงาน' }).click();
+  await page.getByRole('textbox', { name: 'เช่น เพื่อการพิจารณารับเข้าทำงาน' }).fill('Correction');
+  await page.getByRole('textbox', { name: 'เช่น ชื่อ-นามสกุล, เบอร์โทรศัพท์, ที่อยู่' }).click();
+  await page.getByRole('textbox', { name: 'เช่น ชื่อ-นามสกุล, เบอร์โทรศัพท์, ที่อยู่' }).fill('name and phone number');
+  await page.getByRole('textbox', { name: 'ระบุฐานกฎหมาย เช่น ฐานสัญญา, ฐานประโยชน์โดยชอบด้วยกฎหมาย' }).click();
+  await page.getByRole('textbox', { name: 'ระบุฐานกฎหมาย เช่น ฐานสัญญา, ฐานประโยชน์โดยชอบด้วยกฎหมาย' }).fill('everything');
+  await page.getByRole('button', { name: 'Next', exact: true }).click();
+  await page.getByRole('textbox', { name: 'เช่น เก็บใน Google Drive' }).click();
+  await page.getByRole('textbox', { name: 'เช่น เก็บใน Google Drive' }).fill('google drive');
+  await page.getByRole('textbox', { name: 'เช่น 10' }).click();
+  await page.getByRole('textbox', { name: 'เช่น 10' }).fill('20 years');
+  await page.getByRole('textbox', { name: 'เช่น ลบข้อมูลถาวร / ย่อยเอกสาร' }).click();
+  await page.getByRole('textbox', { name: 'เช่น ลบข้อมูลถาวร / ย่อยเอกสาร' }).fill('idk');
+  await page.getByRole('textbox', { name: 'เช่น ติดต่อผ่าน DPO ของบริษัท' }).click();
+  await page.getByRole('textbox', { name: 'เช่น ติดต่อผ่าน DPO ของบริษัท' }).fill('idk too');
+  await page.getByRole('textbox', { name: 'ระบุหน่วยงาน หรือบริษัทภายนอกที่ได้รับข้อมูลนี้ไปใช้ต่อ' }).click();
+  await page.getByRole('textbox', { name: 'ระบุหน่วยงาน หรือบริษัทภายนอกที่ได้รับข้อมูลนี้ไปใช้ต่อ' }).fill('idk also');
+  await page.getByRole('button', { name: 'Next', exact: true }).click();
+  await page.getByRole('checkbox', { name: 'การกำหนดหน้าที่ความรับผิดชอบของผู้ใช้งาน' }).check();
+  await page.getByRole('textbox', { name: 'อธิบายรายละเอียดของ การกำหนดหน้าที่ความรับผิดชอบของผู้ใช้งาน' }).click();
+  await page.getByRole('textbox', { name: 'อธิบายรายละเอียดของ การกำหนดหน้าที่ความรับผิดชอบของผู้ใช้งาน' }).fill('wow');
+  await page.getByRole('button', { name: 'Medium' }).click();
+  page.once('dialog', dialog => {
+    console.log(`Dialog message: ${dialog.message()}`);
+    dialog.dismiss().catch(() => {});
+  });
+  await page.getByRole('button', { name: 'Submit RoPA' }).click();
+});
