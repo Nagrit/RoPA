@@ -18,13 +18,14 @@ import { ManagerDashboardTab } from '@/components/manager/dashboard-tab';
 
 //dpo
 import { DpoDashboardTab } from '@/components/dpo/dashboard-tab';
-import { DpoRopaTab } from '@/components/dpo/ropa-tab';
+import { DpoReviewModal } from '@/components/dpo/ropa-tab';
 
 //executive
 import { ExecutiveDashboardContent } from '@/components/executive/dashboard-content';
 
 //viewer/auditor
 import { ViewerDashboardTab } from '@/components/viewer/dashboard-tab';
+import { DpoRopaListTab } from '@/components/dpo/ropa-list-tab';
 
 const TABS = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['ADMIN'] },
@@ -34,7 +35,7 @@ const TABS = [
   { id: 'profile', label: 'Dashboard', icon: Users, roles: ['USER'] },
   { id: 'manager_dashboard', label: 'Dashboard', icon: Users, roles: ['SUPERVISOR'] },
   { id: 'dpo_dashboard', label: 'Dashboard', icon: Shield, roles: ['DATA PROTECTION OFFICER'] },
-  { id: 'dpo_ropa', label: 'ROPA Review', icon: ShieldCog , roles: ['DATA PROTECTION OFFICER'] },
+  { id: 'dpo_ropa', label: 'ROPA Review', icon: ShieldCog, roles: ['DATA PROTECTION OFFICER'] },
   { id: 'executive_dashboard', label: 'Dashboard', icon: Shield, roles: ['EXECUTIVE'] },
   { id: 'viewer_dashboard', label: 'Dashboard', icon: Shield, roles: ['VIEWER', 'AUDITOR'] }
 ] as const;
@@ -62,9 +63,9 @@ export default function Main() {
     setUserRole(role);
 
     if (role === 'ADMIN') {
-      setActiveTab('users'); 
+      setActiveTab('users');
     } else if (role === 'USER') {
-      setActiveTab('profile'); 
+      setActiveTab('profile');
     } else if (role === 'SUPERVISOR') {
       setActiveTab('manager_dashboard');
     } else if (role === 'DATA PROTECTION OFFICER') {
@@ -88,6 +89,7 @@ export default function Main() {
     userRole && (tab.roles as readonly string[]).includes(userRole)
   );
 
+  const [selectedRopa, setSelectedRopa] = useState<any>(null);
   const renderTab = () => {
     const currentTabSettings = TABS.find(t => t.id === activeTab);
 
@@ -105,7 +107,21 @@ export default function Main() {
       case 'profile': return <DashboardContent />;
       case 'manager_dashboard': return <ManagerDashboardTab />;
       case 'dpo_dashboard': return <DpoDashboardTab onNavigateToRopa={() => setActiveTab('dpo_ropa')} />;
-      case 'dpo_ropa': return <DpoRopaTab />;
+      case 'dpo_ropa':
+        return (
+          <div className="relative">
+            <DpoRopaListTab
+              onReview={(item) => setSelectedRopa(item)}
+            />
+
+            {selectedRopa && (
+              <DpoReviewModal
+                data={selectedRopa}
+                onClose={() => setSelectedRopa(null)}
+              />
+            )}
+          </div>
+        );
       case 'executive_dashboard': return <ExecutiveDashboardContent />;
       case 'viewer_dashboard': return <ViewerDashboardTab />;
       default: return userRole === 'ADMIN' ? <DashboardTab /> : <DashboardContent />;
@@ -127,7 +143,7 @@ export default function Main() {
         ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
       `}>
         <div className="p-8">
-          <h1 className="text-3xl font-bold text-white tracking-tight drop-shadow-md">ชื่อเว็บ</h1>
+          <h1 className="text-2xl font-bold text-white tracking-tight drop-shadow-md">NEXUS INTERNAL</h1>
           {userRole && <p className="text-[10px] text-blue-400 font-black mt-1 uppercase tracking-[0.2em]">{userRole}</p>}
         </div>
 
