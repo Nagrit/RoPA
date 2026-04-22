@@ -1,0 +1,45 @@
+name: FastAPI Backend CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: write
+
+jobs:
+  test-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 2. Run Robot Framework Tests
+        run: |
+          # ใช้ --abort-on-container-exit เพื่อให้ทุก container หยุดเมื่อตัวนึงจบ
+          docker compose up --build --exit-code-from robot_tester --abort-on-container-exit
+
+      - name: 3. Cleanup Docker
+        if: always() # ไม่ว่าจะเทสต์ผ่านหรือพัง ต้องเคลียร์ Docker ออกจากเครื่อง CI
+        run: docker compose down
+
+      - name: 4. Promote to Release Branch
+        if: success()
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          # ดันโค้ดจาก main ไปยัง release
+          git push origin HEAD:release --force
+
+      - name: 5. Upload Test Reports
+        if: always() # ให้เก็บไฟล์เสมอไม่ว่าเทสต์จะผ่านหรือตก
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            tests/results/
+            playwright-report/
+            test-results/
