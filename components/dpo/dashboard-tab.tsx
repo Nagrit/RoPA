@@ -36,8 +36,8 @@ export function DpoDashboardTab({ onNavigateToRopa }: { onNavigateToRopa: () => 
 
       {/* Header Info */}
       <div className="flex flex-col gap-1 relative z-10">
-        <h2 className="text-4xl font-bold text-white tracking-tight">Hello,</h2>
-        <p className="text-slate-500 text-base font-medium">Text</p>
+        <h2 className="text-4xl font-bold text-white tracking-tight">DPO</h2>
+        <p className="text-slate-500 text-base font-medium">Dashboard</p>
       </div>
 
       {/* Summary Cards */}

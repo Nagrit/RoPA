@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { Search, Filter, Plus, Edit2, Trash2, CheckCircle2, XCircle, Clock, ChevronDown } from 'lucide-react';
-import { ManagerReviewModal } from './review-modal';
-import { RejectReasonModal } from './reject-reason-modal';
 
 const RECORDS = [
   { id: 'ระบบจัดการข้อมูลพนักงาน xxx-01', cat: 'xxxx', type: 'xxx', status: 'Completed', date: '2026-05-05' },
@@ -126,8 +124,6 @@ export function ManagerRopaTab() {
         </div>
       </div>
 
-      {isReviewOpen && <ManagerReviewModal onClose={() => setIsReviewOpen(false)} />}
-      {isDeleteOpen && <RejectReasonModal title="เหตุผลในการลบ" onClose={() => setIsDeleteOpen(false)} />}
     </div>
   );
 }
