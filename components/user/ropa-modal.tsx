@@ -7,7 +7,6 @@ export function RopaModal({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState(1);
   const [riskLevel, setRiskLevel] = useState('Low');
 
-  // State สำหรับมาตรการความปลอดภัย (Step 2)
   const [measures, setMeasures] = useState([
     { label: 'มาตรการเชิงองค์กร', active: false, detail: '' },
     { label: 'มาตรการเชิงเทคนิค', active: false, detail: '' },
