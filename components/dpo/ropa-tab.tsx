@@ -9,7 +9,7 @@ import {
 
 export function DpoReviewModal({ onClose, data }: { onClose: () => void; data: any }) {
   const [comment, setComment] = useState('');
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://ropa-backend-production-aaf0.up.railway.app";
+  const API_URL = (process.env.NEXT_PUBLIC_API_URL || "https://ropa-backend-production-aaf0.up.railway.app").replace("http://", "https://");
 
   if (!data) return null;
 
@@ -172,8 +172,8 @@ export function DpoReviewModal({ onClose, data }: { onClose: () => void; data: a
               <ShieldAlert size={14} /> Risk Level:
             </p>
             <span className={`px-8 py-2 rounded-xl border font-black text-sm uppercase tracking-tighter ${data?.risk_level === 'High' ? 'bg-rose-500/20 border-rose-500/40 text-rose-400' :
-                data?.risk_level === 'Medium' ? 'bg-amber-500/20 border-amber-500/40 text-amber-400' :
-                  'bg-blue-500/20 border-blue-500/40 text-blue-400'
+              data?.risk_level === 'Medium' ? 'bg-amber-500/20 border-amber-500/40 text-amber-400' :
+                'bg-blue-500/20 border-blue-500/40 text-blue-400'
               }`}>
               {data?.risk_level || 'ไม่ได้ระบุ'}
             </span>
