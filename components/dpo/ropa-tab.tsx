@@ -9,7 +9,7 @@ import {
 
 export function DpoReviewModal({ onClose, data }: { onClose: () => void; data: any }) {
   const [comment, setComment] = useState('');
-  const API_URL = (process.env.NEXT_PUBLIC_API_URL || "https://ropa-backend-production-aaf0.up.railway.app").replace("http://", "https://");
+  const API_URL = "";
 
   if (!data) return null;
 
@@ -23,7 +23,7 @@ export function DpoReviewModal({ onClose, data }: { onClose: () => void; data: a
 
     try {
       const response = await fetch(`${API_URL}/api/ropa/${data.id}/`, {
-        method: 'PATCH', // เปลี่ยนเป็น PATCH ให้ตรงกับ Backend
+        method: 'PATCH', 
         headers: {
           'Content-Type': 'application/json',
         },
