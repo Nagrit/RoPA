@@ -23,20 +23,17 @@ export function DpoDashboardTab({ onNavigateToRopa }: { onNavigateToRopa: (item:
     fetchData();
   }, []);
 
-  // 2. คำนวณตัวเลข Summary
   const totalRopa = ropaData.length;
   const highRiskCount = ropaData.filter(item => item.risk_level === 'High').length;
-  // ดึงหมวดหมู่ข้อมูลที่ไม่ซ้ำกันมานับเป็นจำนวน Department เบื้องต้น
   const departmentCount = new Set(ropaData.map(item => item.data_category)).size;
 
   const SUMMARY = [
     { title: 'Total ROPA', value: totalRopa, icon: LayoutDashboard },
     { title: 'High Risk', value: highRiskCount, icon: ShieldAlert },
     { title: 'Categories', value: departmentCount, icon: Building2 },
-    { title: 'Active Units', value: '1', icon: Layers }, // ปรับตาม Business Logic ของคุณ
+    { title: 'Active Units', value: '1', icon: Layers },
   ];
 
-  // 3. สรุปข้อมูลแยกตาม Category (Department Overview)
   const getDeptOverview = () => {
     const counts: any = {};
     ropaData.forEach(item => {
