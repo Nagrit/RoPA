@@ -7,7 +7,6 @@ export function DpoDashboardTab({ onNavigateToRopa }: { onNavigateToRopa: (item:
   const [ropaData, setRopaData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://ropa-backend-production-aaf0.up.railway.app";
-  // 1. ดึงข้อมูลจริงจาก Backend
   useEffect(() => {
     const fetchData = async () => {
       try {
